@@ -46,7 +46,7 @@ class Sms
             // $uid = urlencode($uid);
             // $pwd = urlencode($pwd);
             
-            curl_setopt ($curl, CURLOPT_URL, "http://www1.way2sms.com/auth.cl");
+            curl_setopt ($curl, CURLOPT_URL, "http://site6.way2sms.com/Login1.action");
             curl_setopt ($curl, CURLOPT_POST, 1);
             curl_setopt ($curl, CURLOPT_POSTFIELDS, "username=" . $this->uid . "&password=" . $this->pwd);
             curl_setopt ($curl, CURLOPT_COOKIESESSION, 1);
@@ -56,11 +56,12 @@ class Sms
             curl_setopt ($curl, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt ($curl, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US; rv:1.9.0.5) Gecko/2008120122 Firefox/3.0.5");
             curl_setopt ($curl, CURLOPT_CONNECTTIMEOUT, $timeout);
-            curl_setopt ($curl, CURLOPT_REFERER, "http://www1.way2sms.com/");
+            curl_setopt ($curl, CURLOPT_REFERER, "http://site6.way2sms.com/");
             $text = curl_exec($curl);
-            
             // Check for proper login
-            $pos = stripos(curl_getinfo($curl, CURLINFO_EFFECTIVE_URL), "main.jsp");
+            $pos = stripos(curl_getinfo($curl, CURLINFO_EFFECTIVE_URL), "main.action");
+            // echo $pos;
+            // exit();
             if ($pos === "FALSE" || $pos == 0 || $pos == "")
             			return "invalid login";
             
@@ -70,7 +71,7 @@ class Sms
             $pharr = explode(";", $phone);
             $refurl = curl_getinfo($curl, CURLINFO_EFFECTIVE_URL);
             curl_setopt ($curl, CURLOPT_REFERER, $refurl);
-            curl_setopt ($curl, CURLOPT_URL, "http://www1.way2sms.com/jsp/InstantSMS.jsp");
+            curl_setopt ($curl, CURLOPT_URL, "http://site6.way2sms.com/jsp/InstantSMS.jsp");
             $text = curl_exec($curl);
             
             foreach ($pharr as $p)
@@ -86,7 +87,7 @@ class Sms
                   $p = urlencode($p);
                   
                   // Send SMS
-                  curl_setopt ($curl, CURLOPT_URL, "http://www1.way2sms.com/FirstServletsms?custid=\"+custid+\"&sponserid=\"+sponserid+\"");
+                  curl_setopt ($curl, CURLOPT_URL, "http://site6.way2sms.com/quicksms.action?custid=\"+custid+\"&sponserid=\"+sponserid+\"");
                   curl_setopt ($curl, CURLOPT_REFERER, curl_getinfo($curl, CURLINFO_EFFECTIVE_URL));
                   curl_setopt ($curl, CURLOPT_POST, 1);
                   
@@ -97,7 +98,7 @@ class Sms
             }
             
             // Logout :P
-            curl_setopt ($curl, CURLOPT_URL, "http://wwwd1.way2sms.com/jsp/logout.jsp");
+            curl_setopt ($curl, CURLOPT_URL, "http://site6.way2sms.com/jsp/logout.jsp");
             curl_setopt ($curl, CURLOPT_REFERER, $refurl);
             $text = curl_exec($curl);	
             
