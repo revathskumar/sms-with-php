@@ -11,3 +11,5 @@ php:
   - 5.3
   # aliased to 5.4.0rc4
   - 5.4
+
+script: phpunit SmsTest.php
