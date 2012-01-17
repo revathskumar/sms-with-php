@@ -1,6 +1,4 @@
 <?php
-require ("nusoap/lib/nusoap.php");
-
 /*Sms
  *used to send sms using web service
  *@ $uid       String:  username to authenticate the way2sms website
@@ -73,7 +71,10 @@ class Sms
             curl_setopt ($curl, CURLOPT_REFERER, $refurl);
             curl_setopt ($curl, CURLOPT_URL, "http://site6.way2sms.com/jsp/InstantSMS.jsp");
             $text = curl_exec($curl);
-            
+            $dom = new DOMDocument();
+            $dom->loadHTML($text);
+            $action = $dom->getElementById("Action")->getAttribute('value');
+
             foreach ($pharr as $p)
             {
             
@@ -92,7 +93,7 @@ class Sms
                   curl_setopt ($curl, CURLOPT_POST, 1);
                   
                   
-                  curl_setopt ($curl, CURLOPT_POSTFIELDS, "MobNo=$p&textArea=$msg&HiddenAction=instantsms&login=&pass=&Action=abfghst5654g");
+                  curl_setopt ($curl, CURLOPT_POSTFIELDS, "MobNo=$p&textArea=$msg&HiddenAction=instantsms&login=&pass=&Action=$action");
                   $text = curl_exec($curl);
                   $sendError = curl_error($curl);
             }
